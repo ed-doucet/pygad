@@ -20,7 +20,7 @@ Example:
     ...         gfile.seek(block.start_pos)
     ...         data = np.fromfile(gfile,
     ...                             dtype=endianness+block.type_descr,
-    ...                             count=N*block.dimension)
+    ...                             count=np.int64(N)*block.dimension)
     ...         if block.dimension > 1:
     ...             data = data.reshape( (N,block.dimension) )
     ...         blocks[block.name] = data

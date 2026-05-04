@@ -220,7 +220,7 @@ def image(s, qty=None, av=None, units=None, logscale=None, surface_dens=None,
           scaleunits=None, fontcolor='white', fontsize=14, outline=True,
           im_alpha=None, interpolation='nearest', maps=None,
           zero_is_white=False, **kwargs):
-    '''
+    r'''
     Show an image of the snapshot.
 
     By default the mass is plotted with the colormap `CM_DEF` if `colors` is

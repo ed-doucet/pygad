@@ -116,7 +116,7 @@ class FileReader(object):
         if self._format == 3:
             with h5py.File(self._filename, 'r') as gfile:
                 HDF5_name = config.std_name_to_HDF5.get(name,name)
-                data = np.empty(N*block.dimension, dtype=block.dtype)
+                data = np.empty(np.int64(N)*block.dimension, dtype=block.dtype)
                 if block.dimension > 1:
                     data = data.reshape( (N,block.dimension) )
                 off = 0
@@ -131,7 +131,7 @@ class FileReader(object):
                 gfile.seek(block.start_pos)
                 data = np.fromfile(gfile,
                                    dtype=self._endianness+block.type_descr,
-                                   count=N*block.dimension)
+                                   count=np.int64(N)*block.dimension)
                 if block.dimension > 1:
                     data = data.reshape( (N,block.dimension) )
 
