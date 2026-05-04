@@ -118,34 +118,48 @@ gc_full_collect()
 
 from .environment import module_dir
 import subprocess
+import shutil
+import warnings
 
 if not os.path.exists(module_dir+'./CoolingTables/z_0.000.hdf5'):
     url = 'https://bitbucket.org/broett/pygad/downloads/'
     file = 'z_0.000_highres.tar.gz'
-    subprocess.run('wget -q %s%s' % (url, file), check=True, shell=True)
-    subprocess.run('tar zxvf %s -C %s/' % (file, module_dir), check=True, shell=True)
-    subprocess.run('rm -f %s' % file, check=True, shell=True)
+    if shutil.which('wget') is not None:
+        subprocess.run('wget -q %s%s' % (url, file), check=True, shell=True)
+        subprocess.run('tar zxvf %s -C %s/' % (file, module_dir), check=True, shell=True)
+        subprocess.run('rm -f %s' % file, check=True, shell=True)
+    else:
+        warnings.warn('Optional CoolingTables data is missing and wget is not available; please install it manually.')
 
 if not os.path.exists(module_dir+'./iontbls'):
     url = 'https://bitbucket.org/broett/pygad/downloads/'
     file = 'iontbls.tar.gz'
-    subprocess.run('wget -q  %s%s' % (url, file), check=True, shell=True)
-    subprocess.run('tar zxf %s -C %s/' % (file, module_dir), check=True, shell=True)
-    subprocess.run('rm -f %s' % file, check=True, shell=True)
+    if shutil.which('wget') is not None:
+        subprocess.run('wget -q  %s%s' % (url, file), check=True, shell=True)
+        subprocess.run('tar zxf %s -C %s/' % (file, module_dir), check=True, shell=True)
+        subprocess.run('rm -f %s' % file, check=True, shell=True)
+    else:
+        warnings.warn('Optional iontbls data is missing and wget is not available; please install it manually.')
 
 if not os.path.exists(module_dir+'./bc03'):
     url = 'https://bitbucket.org/broett/pygad/downloads/'
     file = 'bc03.tar.gz'
-    subprocess.run('wget -q  %s%s' % (url, file), check=True, shell=True)
-    subprocess.run('tar zxf %s -C %s/' % (file, module_dir), check=True, shell=True)
-    subprocess.run('rm -f %s' % file, check=True, shell=True)
+    if shutil.which('wget') is not None:
+        subprocess.run('wget -q  %s%s' % (url, file), check=True, shell=True)
+        subprocess.run('tar zxf %s -C %s/' % (file, module_dir), check=True, shell=True)
+        subprocess.run('rm -f %s' % file, check=True, shell=True)
+    else:
+        warnings.warn('Optional bc03 data is missing and wget is not available; please install it manually.')
 
 if not os.path.exists(module_dir+'./snaps'):
     url = 'https://bitbucket.org/broett/pygad/downloads/'
     file = 'snaps.tar.gz'
-    subprocess.run('wget -q  %s%s' % (url, file), check=True, shell=True)
-    subprocess.run('tar zxf %s -C %s/' % (file, module_dir), check=True, shell=True)
-    subprocess.run('rm -f %s' % file, check=True, shell=True)
+    if shutil.which('wget') is not None:
+        subprocess.run('wget -q  %s%s' % (url, file), check=True, shell=True)
+        subprocess.run('tar zxf %s -C %s/' % (file, module_dir), check=True, shell=True)
+        subprocess.run('rm -f %s' % file, check=True, shell=True)
+    else:
+        warnings.warn('Optional snaps data is missing and wget is not available; please install it manually.')
 
 from ._version import get_versions
 __version__ = get_versions()['version']

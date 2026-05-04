@@ -523,7 +523,7 @@ def SFR_Elbaz_2007(M_star, z=0.0, return_scatter=False):
 
 
 def Jeans_length(T, rho, mu='1 u', units='kpc'):
-    '''
+    r'''
     The Jeans length.
 
     ... as in:
@@ -584,7 +584,7 @@ def Jeans_length(T, rho, mu='1 u', units='kpc'):
 
 
 def Jeans_mass(T, rho, mu='1 u', units='Msol'):
-    '''
+    r'''
     The Jeans mass.
 
     ... as in:

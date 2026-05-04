@@ -26,34 +26,39 @@ elif platform.system() == "Darwin":
 else:
     lib_pattern = "cpygad*.so"   # .so on Linux/Unix
 
+lib_path = None
+_has_cpygad = False
+
 try:
-    cpygad = cdll.LoadLibrary(glob(environment.module_dir + "C/" + lib_pattern)[0])
+    lib_path = glob(environment.module_dir + "C/" + lib_pattern)[0]
 except IndexError:
-    # Try alternative locations
     try:
-        cpygad = cdll.LoadLibrary(glob(environment.module_dir + lib_pattern)[0])
+        lib_path = glob(environment.module_dir + lib_pattern)[0]
     except IndexError:
-        # If no library found, create a dummy object to avoid import errors
-        # The Python fallbacks will be used
-        class DummyLib:
-            def __getattr__(self, name):
-                def dummy_func(*args, **kwargs):
-                    raise NotImplementedError(f"C extension function {name} not available")
-                return dummy_func
-        cpygad = DummyLib()
+        lib_path = None
 
-cpygad.cubic.restype = c_double
-cpygad.cubic.argtypes = [c_double, c_double]
-cpygad.quartic.restype = c_double
-cpygad.quartic.argtypes = [c_double, c_double]
-cpygad.quintic.restype = c_double
-cpygad.quintic.argtypes = [c_double, c_double]
-cpygad.Wendland_C2.restype = c_double
-cpygad.Wendland_C2.argtypes = [c_double, c_double]
-cpygad.Wendland_C4.restype = c_double
-cpygad.Wendland_C4.argtypes = [c_double, c_double]
-cpygad.Wendland_C6.restype = c_double
-cpygad.Wendland_C6.argtypes = [c_double, c_double]
+if lib_path is not None:
+    cpygad = cdll.LoadLibrary(lib_path)
+    _has_cpygad = True
+else:
+    class DummyLib:
+        def __getattr__(self, name):
+            raise AttributeError(name)
+    cpygad = DummyLib()
 
-cpygad.Voigt.restype = c_double
-cpygad.Voigt.argtypes = [c_double, c_double, c_double]
+if _has_cpygad:
+    cpygad.cubic.restype = c_double
+    cpygad.cubic.argtypes = [c_double, c_double]
+    cpygad.quartic.restype = c_double
+    cpygad.quartic.argtypes = [c_double, c_double]
+    cpygad.quintic.restype = c_double
+    cpygad.quintic.argtypes = [c_double, c_double]
+    cpygad.Wendland_C2.restype = c_double
+    cpygad.Wendland_C2.argtypes = [c_double, c_double]
+    cpygad.Wendland_C4.restype = c_double
+    cpygad.Wendland_C4.argtypes = [c_double, c_double]
+    cpygad.Wendland_C6.restype = c_double
+    cpygad.Wendland_C6.argtypes = [c_double, c_double]
+
+    cpygad.Voigt.restype = c_double
+    cpygad.Voigt.argtypes = [c_double, c_double, c_double]

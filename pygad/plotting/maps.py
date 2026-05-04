@@ -239,7 +239,7 @@ def image(s, qty=None, av=None, units=None, logscale=None, surface_dens=None,
     defautls apply:
         for stars only:
             colors='age.in_units_of("Gyr")', colors_av='lum_v', cmap='age',
-            clim=[0,13], cbartitle = '(V-band weighted) age $[\mathrm{Gyr}]$'
+            clim=[0,13], cbartitle = r'(V-band weighted) age $[\mathrm{Gyr}]$'
         for gas only:
             colors='temp.in_units_of("K")', colors_av='rho', cmap='isolum',
             clogscale=True, cbartitle=r'$\log_{10}(T\,[\mathrm{K}])$'
@@ -411,8 +411,7 @@ def image(s, qty=None, av=None, units=None, logscale=None, surface_dens=None,
                 colors, colors_av = 'age.in_units_of("Gyr")', 'lum_v'
                 if cmap is None:        cmap = 'age'
                 if clim is None:        clim = [0,13]
-                if cbartitle is None:   cbartitle = '(V-band weighted) age ' + \
-                                                    '$[\mathrm{Gyr}]$'
+                if cbartitle is None:   cbartitle = r'(V-band weighted) age $[\mathrm{Gyr}]$'
             elif (len(s)!=0 and len(s.gas)==len(s)) \
                     or (s.descriptor.endswith('gas') and len(s)==0):
                 # gas only

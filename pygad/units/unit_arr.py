@@ -316,7 +316,7 @@ class UnitArr(np.ndarray):
         self._unit_carrier = getattr(obj, '_unit_carrier', self)
         self._units = getattr(obj, 'units', None)
 
-    def __array_wrap__(self, array, context=None):
+    def __array_wrap__(self, array, context=None, return_scalar=False):
         if context is None:
             return array
 

@@ -6,7 +6,7 @@ __all__ = ['strip_ansi', 'term_len', 'get_terminal_size']
 import re
 import os
 
-_ansi_re = re.compile('\033\[((?:\d|;)*)([a-zA-Z])')
+_ansi_re = re.compile(r'\033\[((?:\d|;)*)([a-zA-Z])')
 
 
 def strip_ansi(value):

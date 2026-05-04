@@ -88,7 +88,7 @@ def project_kernel(kernel, N=100, inter_kind='quadratic'):
                     kind=inter_kind)
 
 def integrate_kernel(kernel, N=100, inter_kind='quadratic'):
-    '''
+    r'''
     Create an interpolation function for the 3D integrated kernel.
 
     The kernel w gets integrated as:

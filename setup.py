@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import sys
 import subprocess
 from glob import glob
 import platform
@@ -26,9 +27,26 @@ for root, dirs, files in os.walk(setup_dir):
 
 gsl_include = ""
 gsl_lib = ""
+gsl_found = False
+
 if os.getenv("GSL_HOME") is not None:
-    gsl_include = os.getenv("GSL_HOME") + "/include"
-    gsl_lib = os.getenv("GSL_HOME") + "/lib"
+    gsl_prefix = os.getenv("GSL_HOME")
+    gsl_include = os.path.join(gsl_prefix, "include")
+    gsl_lib = os.path.join(gsl_prefix, "lib")
+    gsl_found = True
+else:
+    for prefix in [sys.prefix, sys.base_prefix, os.path.join(sys.prefix, ".."), "/usr"]:
+        if prefix is None:
+            continue
+        inc_dir = os.path.join(prefix, "include")
+        lib_dir = os.path.join(prefix, "lib")
+        if os.path.exists(os.path.join(inc_dir, "gsl", "gsl_integration.h")):
+            if (glob(os.path.join(lib_dir, "libgsl.*")) or
+                    glob(os.path.join(lib_dir, "libgslcblas.*"))):
+                gsl_include = inc_dir
+                gsl_lib = lib_dir
+                gsl_found = True
+                break
 
 if platform.system() == "Windows":
     extra_compile_args = [
@@ -50,20 +68,26 @@ else:
     extra_link_args = ["-fopenmp"]
     libraries = ["m", "gsl", "gslcblas", "gomp"]
 
-ext_module = Extension(
-    "pygad/C/cpygad",
-    language="c++",
-    sources=glob("pygad/C/src/*"),
-    include_dirs=[
-        "pygad/C/include",
-        "/usr/include",
-        gsl_include,
-    ],
-    extra_compile_args=extra_compile_args,
-    libraries=libraries,
-    extra_link_args=extra_link_args,
-    library_dirs=[gsl_lib],
-)
+ext_modules = []
+if gsl_found:
+    ext_module = Extension(
+        "pygad/C/cpygad",
+        language="c++",
+        sources=glob("pygad/C/src/*"),
+        include_dirs=[
+            "pygad/C/include",
+            "/usr/include",
+            gsl_include,
+        ],
+        extra_compile_args=extra_compile_args,
+        libraries=libraries,
+        extra_link_args=extra_link_args,
+        library_dirs=[gsl_lib],
+    )
+    ext_modules = [ext_module]
+else:
+    print("Warning: GSL not found. pygad will be installed without the optional C extension.")
+    print("         Install GSL and re-run pip if you want C acceleration for kernels and octrees.")
 
 setup(
     name="pygadmpa",
@@ -78,5 +102,5 @@ setup(
     scripts=scripts,
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
-    ext_modules=[ext_module],
+    ext_modules=ext_modules,
 )

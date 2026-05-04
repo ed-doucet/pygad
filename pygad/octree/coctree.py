@@ -112,52 +112,58 @@ import weakref
 from .. import environment
 from .. import utils
 
-cpygad.new_octree_from_pos.restype = c_void_p
-cpygad.new_octree_from_pos.argtypes = [c_size_t, c_void_p]
-cpygad.free_octree.argtypes = [c_void_p]
-cpygad.get_octree_center.argtypes = [c_void_p, c_void_p]
-cpygad.get_octree_side_2.restype = c_double
-cpygad.get_octree_side_2.argtypes = [c_void_p]
-cpygad.get_octree_is_leaf.restype = c_int
-cpygad.get_octree_is_leaf.argtypes = [c_void_p]
-cpygad.get_octree_num_children.restype = c_uint
-cpygad.get_octree_num_children.argtypes = [c_void_p]
-cpygad.get_octree_tot_part.restype = c_size_t
-cpygad.get_octree_tot_part.argtypes = [c_void_p]
-cpygad.get_octree_max_H.restype = c_double
-cpygad.get_octree_max_H.argtypes = [c_void_p]
-cpygad.get_octree_max_H.restype = c_double
-cpygad.get_octree_max_H.argtypes = [c_void_p]
-cpygad.get_octree_max_depth.restype = c_int
-cpygad.get_octree_max_depth.argtypes = [c_void_p]
-cpygad.get_octree_node_count.restype = c_size_t
-cpygad.get_octree_node_count.argtypes = [c_void_p, c_int]
-cpygad.get_octree_in_region.restypes = c_int
-cpygad.get_octree_in_region.argtypes = [c_void_p, c_void_p]
-cpygad.fill_octree.argtypes = [c_void_p, c_size_t, c_void_p]
-cpygad.update_octree_max_H.argtypes = [c_void_p, c_void_p]
-cpygad.update_octree_const_max_H.argtypes = [c_void_p, c_double]
-cpygad.get_octree_child.restype = c_void_p
-cpygad.get_octree_child.argtypes = [c_void_p, c_int]
-cpygad.get_octree_octant.restype = c_uint
-cpygad.get_octree_octant.argtypes = [c_void_p, c_void_p]
-cpygad.get_octree_ngbs_within.argtypes = [c_void_p,
+if getattr(cpygad, 'new_octree_from_pos', None) is not None:
+    cpygad.new_octree_from_pos.restype = c_void_p
+    cpygad.new_octree_from_pos.argtypes = [c_size_t, c_void_p]
+    cpygad.free_octree.argtypes = [c_void_p]
+    cpygad.get_octree_center.argtypes = [c_void_p, c_void_p]
+    cpygad.get_octree_side_2.restype = c_double
+    cpygad.get_octree_side_2.argtypes = [c_void_p]
+    cpygad.get_octree_is_leaf.restype = c_int
+    cpygad.get_octree_is_leaf.argtypes = [c_void_p]
+    cpygad.get_octree_num_children.restype = c_uint
+    cpygad.get_octree_num_children.argtypes = [c_void_p]
+    cpygad.get_octree_tot_part.restype = c_size_t
+    cpygad.get_octree_tot_part.argtypes = [c_void_p]
+    cpygad.get_octree_max_H.restype = c_double
+    cpygad.get_octree_max_H.argtypes = [c_void_p]
+    cpygad.get_octree_max_H.restype = c_double
+    cpygad.get_octree_max_H.argtypes = [c_void_p]
+    cpygad.get_octree_max_depth.restype = c_int
+    cpygad.get_octree_max_depth.argtypes = [c_void_p]
+    cpygad.get_octree_node_count.restype = c_size_t
+    cpygad.get_octree_node_count.argtypes = [c_void_p, c_int]
+    cpygad.get_octree_in_region.restypes = c_int
+    cpygad.get_octree_in_region.argtypes = [c_void_p, c_void_p]
+    cpygad.fill_octree.argtypes = [c_void_p, c_size_t, c_void_p]
+    cpygad.update_octree_max_H.argtypes = [c_void_p, c_void_p]
+    cpygad.update_octree_const_max_H.argtypes = [c_void_p, c_double]
+    cpygad.get_octree_child.restype = c_void_p
+    cpygad.get_octree_child.argtypes = [c_void_p, c_int]
+    cpygad.get_octree_octant.restype = c_uint
+    cpygad.get_octree_octant.argtypes = [c_void_p, c_void_p]
+    cpygad.get_octree_ngbs_within.argtypes = [c_void_p,
                                           c_void_p, c_double,
                                           c_size_t, c_void_p, POINTER(c_size_t),
                                           c_void_p, c_double,
                                           c_void_p]
-cpygad.get_octree_ngbs_SPH.argtypes = [c_void_p,
+    cpygad.get_octree_ngbs_SPH.argtypes = [c_void_p,
                                        c_void_p, c_void_p,
                                        c_size_t, c_void_p, POINTER(c_size_t),
                                        c_void_p, c_double, c_double]
-cpygad.get_octree_next_ngb.argtypes = [c_void_p, c_void_p, c_void_p, c_double,
+    cpygad.get_octree_next_ngb.argtypes = [c_void_p, c_void_p, c_void_p, c_double,
                                        c_void_p]
 
 
 class _MAX_TREE_LEVEL_class(type):
-    _MAX_TREE_LEVEL = int(c_int.in_dll(cpygad, 'MAX_TREE_LEVEL').value)
+    try:
+        _MAX_TREE_LEVEL = int(c_int.in_dll(cpygad, 'MAX_TREE_LEVEL').value)
+    except Exception:
+        _MAX_TREE_LEVEL = None
 
     def _get_MAX_TREE_LEVEL(self):
+        if self._MAX_TREE_LEVEL is None:
+            raise ImportError("C extension is not available; cOctree cannot be used.")
         return self._MAX_TREE_LEVEL
 
     def _set_MAX_TREE_LEVEL(self, value):

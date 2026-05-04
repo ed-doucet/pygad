@@ -55,7 +55,7 @@ Examples:
 '''
 __all__ = ['ptypes_and_deps', 'read_derived_rules', 'general']
 
-from configparser import SafeConfigParser
+from configparser import ConfigParser as SafeConfigParser
 from .. import utils
 from .. import gadget
 from .. import environment

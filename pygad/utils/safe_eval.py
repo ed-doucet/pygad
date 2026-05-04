@@ -148,8 +148,8 @@ class Evaluator(object):
     def _eval(self, node):
         if hasattr(node,'ctx') and not isinstance(node.ctx, ast.Load):
             raise EvalError('only loading context allowed')
-        if isinstance(node, ast.Num):
-            return node.n
+        if isinstance(node, ast.Constant):
+            return node.value
         elif isinstance(node, ast.Name):
             return self.variables[node.id]
         elif isinstance(node, ast.BinOp):

@@ -59,7 +59,7 @@ def _calc_ys(qty, all_gas_pos, gas_pos, hsml, kernel):
 
 
 def kernel_weighted(s, qty, units=None, kernel=None, parallel=None):
-    '''
+    r'''
     Calculate a kernel weighted SPH quantity for all the gas particles:
              N
             ___         /  \

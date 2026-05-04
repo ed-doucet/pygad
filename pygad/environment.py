@@ -64,7 +64,7 @@ def git_descr(path=os.curdir, dirty='dirty', PEP440=False):
                                'tag.')
         vtag = match.group('vtag')
         rev = match.group('rev')
-        if re.match('-\d+-', rev):
+        if re.match(r'-\d+-', rev):
             i = rev.replace('-','x',1).find('-')
             rev = rev[:i] + '+' + rev[i+1:]
         descr = vtag + rev.replace('-', '.')

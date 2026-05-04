@@ -27,6 +27,6 @@ import os
 
 from ..environment import module_dir
 read_derived_rules(['./derived.cfg',
-                   os.getenv("HOME")+'/.config/pygad/derived.cfg',
+                   os.path.expanduser('~/.config/pygad/derived.cfg'),
                    module_dir+'config/derived.cfg'])
 

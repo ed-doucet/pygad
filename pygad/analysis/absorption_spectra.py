@@ -404,7 +404,7 @@ def line_quantity(line, qty):
 
 
 def Gaussian(x, sigma):
-    """
+    r"""
     The Gaussian function:
 
                               1                /    1     x^2    \
@@ -424,7 +424,7 @@ def Gaussian(x, sigma):
 
 
 def Lorentzian(x, gamma):
-    """
+    r"""
     The Lorentz function:
 
                              gamma
@@ -444,7 +444,7 @@ def Lorentzian(x, gamma):
 
 
 def Voigt(x, sigma, gamma):
-    """
+    r"""
     The Voigt function.
 
     It is defined as a convolution of a Gaussian and a Lorentz function:

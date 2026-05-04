@@ -1593,7 +1593,7 @@ class SnapshotCache:
         '''
 
         def read_traced_gas(filename, types=None):
-            '''
+            r'''
             Read the gas tracing statistics from a gtracegas output.
 
             The data also gets tagged by type:
@@ -2147,7 +2147,7 @@ class SnapshotProperty(dict):
                     if len(cols) > 1:  # otherwise no value given, avoid ValueError
                         name = cols[0].strip()
                         value = cols[1].strip()
-                        blocks = re.findall('\[(.*?)\]', value)
+                        blocks = re.findall(r'\[(.*?)\]', value)
                         if len(blocks) == 1:
                             valuelist = len(value.rsplit('[')[0].strip()) == 0
                         else:

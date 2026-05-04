@@ -43,7 +43,7 @@ def read_info_file(filename):
                 if len(cols) > 1:           # otherwise no value given, avoid ValueError
                     name = cols[0].strip()
                     value = cols[1].strip()
-                    blocks = re.findall('\[(.*?)\]', value)
+                    blocks = re.findall(r'\[(.*?)\]', value)
                     if len(blocks) == 0:
                         value = float(value) if value != 'None' else None
                     elif len(blocks) == 1:
@@ -537,7 +537,7 @@ def fill_star_from_info(snap, fname, fill_undefined_nan=True, dtypes=None,
 
 
 def read_traced_gas(filename, types=None):
-    '''
+    r'''
     Read the gas tracing statistics from a gtracegas output.
 
     The data also gets tagged by type:

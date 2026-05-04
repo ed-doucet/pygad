@@ -67,7 +67,7 @@ from .. import C
 
 
 def cubic(u):
-    '''
+    r'''
     The cubic kernel:
 
         8   /   2           \               1
@@ -99,7 +99,7 @@ def cubic_vec(u):
 
 
 def quartic(u):
-    '''
+    r'''
     The quartic kernel:
 
          15625  / /    \ 4     / 2    \ 4     / 1    \ 4 \               1
@@ -138,7 +138,7 @@ def quartic_vec(u):
 
 
 def quintic(u):
-    '''
+    r'''
     The quintic kernel:
 
          2187  / /    \ 5     / 2    \ 5     / 1    \ 5 \               1
@@ -178,7 +178,7 @@ def quintic_vec(u):
 
 
 def Wendland_C2(u):
-    '''
+    r'''
     The Wendland C2 kernel:
 
                   4 /       \
@@ -198,7 +198,7 @@ def Wendland_C2_vec(u):
 
 
 def Wendland_C4(u):
-    '''
+    r'''
     The Wendland C4 kernel:
 
                    6  /    2          \
@@ -218,7 +218,7 @@ def Wendland_C4_vec(u):
 
 
 def Wendland_C6(u):
-    '''
+    r'''
     The Wendland C6 kernel:
 
                     8

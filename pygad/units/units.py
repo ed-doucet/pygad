@@ -1,4 +1,4 @@
-'''
+r'''
 An implementation of units.
 
 For a system of units one defined base units (globally registered) and can then
@@ -390,7 +390,7 @@ _unit_definitions = {}
 _unit_latex = {}
 
 def define(name, u=None, latex=None, allow_redef=True, warn=True):
-    '''
+    r'''
     Define a new unit.
 
     Args:
@@ -463,7 +463,7 @@ def defined_units():
     return list(_unit_definitions.keys())
 
 def define_from_cfg(config, allow_redef=False, warn=True, undefine_old=True):
-    '''
+    r'''
     Define unit from a config-file.
 
     The config file has to be readable by ConfigParser.SafeConfigParser, i.e. it
@@ -648,7 +648,7 @@ def Unit(x, allow_undefined=False):
         # place missing multiplications
         x = re.sub(_re_mul_space, '*', x)
         for pattern in _re_frac_power:
-            x = re.sub(pattern, '**Fraction(\g<nom>,\g<den>)', x)
+            x = re.sub(pattern, r'**Fraction(\g<nom>,\g<den>)', x)
         variables = { n:_UnitClass(1.,[[n,1]]) for n in _unit_definitions }
         if allow_undefined:
             if allow_undefined == 'debug':
