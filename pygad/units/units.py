@@ -280,7 +280,7 @@ class _UnitClass(object):
         return self.__pow__(Fraction(1,2))
 
     def __pow__(self, power):
-        if not isinstance(power, (int, Fraction, numpy.int32, numpy.int64)):
+        if not isinstance(power, (int, Fraction)):
             raise UnitError('Units can only be raised to integer of fractional '
                             'powers!')
         '''

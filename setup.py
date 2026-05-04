@@ -2,6 +2,7 @@
 import os
 import subprocess
 from glob import glob
+import platform
 
 from setuptools import Extension, setup
 
@@ -21,13 +22,33 @@ for root, dirs, files in os.walk(setup_dir):
         modules.append(submod)
 
 # clean and make the cpygad.so library
-subprocess.run(["make", "clean"], cwd=setup_dir + "/pygad/C", check=True)
+# subprocess.run(["make", "clean"], cwd=setup_dir + "/pygad/C", check=True)
 
 gsl_include = ""
 gsl_lib = ""
 if os.getenv("GSL_HOME") is not None:
     gsl_include = os.getenv("GSL_HOME") + "/include"
     gsl_lib = os.getenv("GSL_HOME") + "/lib"
+
+if platform.system() == "Windows":
+    extra_compile_args = [
+        "/O2",  # Optimize for speed
+        "/std:c++11",
+    ]
+    extra_link_args = []
+    libraries = ["gsl", "gslcblas"]  # Remove m and gomp which are Unix-specific
+else:
+    extra_compile_args = [
+        "-fPIC",
+        "-std=c++11",
+        "-O3",
+        "-fopenmp",
+        "-pedantic",
+        "-Wall",
+        "-Wextra",
+    ]
+    extra_link_args = ["-fopenmp"]
+    libraries = ["m", "gsl", "gslcblas", "gomp"]
 
 ext_module = Extension(
     "pygad/C/cpygad",
@@ -38,17 +59,9 @@ ext_module = Extension(
         "/usr/include",
         gsl_include,
     ],
-    extra_compile_args=[
-        "-fPIC",
-        "-std=c++11",
-        "-O3",
-        "-fopenmp",
-        "-pedantic",
-        "-Wall",
-        "-Wextra",
-    ],
-    libraries=["m", "gsl", "gslcblas", "gomp"],
-    extra_link_args=["-fopenmp"],
+    extra_compile_args=extra_compile_args,
+    libraries=libraries,
+    extra_link_args=extra_link_args,
     library_dirs=[gsl_lib],
 )
 

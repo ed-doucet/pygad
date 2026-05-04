@@ -91,7 +91,7 @@ __all__ = ['gridbin2d', 'gridbin1d', 'gridbin', 'grid_props', 'Map', 'scale01', 
 import numpy as np
 from ..units import *
 from scipy.stats import binned_statistic_dd
-from scipy.ndimage.filters import convolve
+from scipy.ndimage import convolve
 
 
 def gridbin2d(x, y, qty=None, bins=50, extent=None, normed=False, stats=None,

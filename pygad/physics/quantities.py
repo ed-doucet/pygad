@@ -228,7 +228,7 @@ def SMH_Moster_2013(M_halo, z=0.0, return_scatter=False):
     one_minus_a = float(z / (z + 1.0))
 
     M_halo = UnitQty(M_halo, 'Msol', dtype=float)
-    from collections import Iterable
+    from collections.abc import Iterable
     if getattr(M_halo, 'shape', None) and M_halo.shape[0] > 1:
         ret = []
         for Mh in M_halo:

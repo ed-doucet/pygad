@@ -17,7 +17,7 @@ from .units import *
 define_from_cfg(
     [
         "./units.cfg",
-        os.getenv("HOME") + "/.config/pygad/units.cfg",
+        os.path.expanduser("~/.config/pygad/units.cfg"),
         module_dir + "config/units.cfg",
     ]
 )
